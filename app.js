@@ -1,16 +1,16 @@
 // // instead of declaring each one on a line, can declare them all together and deifn them later on
 let scores, roundScore, activePlayer, dice;
-
+init()
 // // keep track of the round score. only need one at a time.
-scores = [0, 0];
+// scores = [0, 0];
 
 // // keep track of all scores in one array
-roundScore = 0;
+// roundScore = 0;
 
 // // need variable of current active player. 
 // // We are using 0 for active player and 1 for the other as those numbers will be used to match with the 
 // // index number of the array as there are 2 numbers, and it is 0 based and so 0 and 1.
-activePlayer = 0;
+// activePlayer = 0;
 
 // // create the dice - which is essentially a random number
 // dice = Math.floor(Math.random() * 6) + 1;
@@ -25,13 +25,9 @@ activePlayer = 0;
 // document.querySelector('.btn-roll').addEventListener('click', btn);
 // // this is a callback function. a function being called by another function
 
-// these 4 lines of code will reset the score when the page loads all to 0
-document.getElementById("score-0").textContent = '0';
-document.getElementById("score-1").textContent = '0';
-document.getElementById("current-0").textContent = '0';
-document.getElementById("current-1").textContent = '0';
 
-var diceDOM = document.querySelector('.dice ');
+
+var diceDOM = document.querySelector('.dice');
 
 
 // step 1 the button is pressed and the event listener hears this click and carries out the function
@@ -40,7 +36,7 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
     var dice = Math.floor(Math.random() * 6) + 1;
 
     // step 3 - we have to display this random number on the dice image
-    var diceDOM = document.querySelector('.dice ');
+    var diceDOM = document.querySelector('.dice');
     diceDOM.style.display = 'block';
     diceDOM.src = "dice-" + dice + '.png';
 
@@ -84,14 +80,10 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
     }
 
 
-
-
-
 });
 
 function nextPlayer() {
-    var diceDOM = document.querySelector('.dice ');
-
+    var diceDOM = document.querySelector('.dice');
     // then move to next player
     // so if active play 0 then player 1 if not then player 2
     // use ternary operator to change the player
@@ -112,3 +104,35 @@ function nextPlayer() {
 
     diceDOM.style.display = 'none';
 }
+
+
+document.querySelector('.btn-new').addEventListener('click', init);
+
+
+
+
+function init() {
+    // reset scores to 0
+    scores = [0, 0];
+
+    // active player back to 0;
+    activePlayer = 0;
+
+    // if there is roundscore then needs to 0
+    roundScore = 0;
+
+
+    // these 4 lines of code will reset the score when the page loads all to 0
+    document.getElementById("score-0").textContent = '0';
+    document.getElementById("score-1").textContent = '0';
+    document.getElementById("current-0").textContent = '0';
+    document.getElementById("current-1").textContent = '0';
+    document.getElementById('name-0').textContent = 'Player 1';
+    document.getElementById('name-1').textContent = 'Player 2';
+    document.querySelector('.player-0-panel').classList.remove('winner');
+    document.querySelector('.player-1-panel').classList.remove('winner');
+    document.querySelector('.player-0-panel').classList.remove('active');
+    document.querySelector('.player-0-panel').classList.add('active');
+    document.querySelector('.player-1-panel').classList.remove('active');
+
+};
