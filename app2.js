@@ -14,23 +14,41 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
     if (gamePlaying) {
 
         // step 2 a random number between 1 and 6 is created
-        var dice = Math.floor(Math.random() * 6) + 1;
+        var dice1 = Math.floor(Math.random() * 6) + 1;
+        var dice2 = Math.floor(Math.random() * 6) + 1;
+
 
         // step 3 - we have to display this random number on the dice image
-        var diceDOM = document.querySelector('.dice');
-        diceDOM.style.display = 'block';
-        diceDOM.src = "dice-" + dice + '.png';
+        document.getElementById('dice-1').style.display = 'block';
+        document.getElementById('dice-2').style.display = 'block';
+        document.getElementById('dice-1').src = 'dice-' + dice1 + '.png';
+        document.getElementById('dice-2').src = 'dice-' + dice2 + '.png';
+
+        // // step 4 - update the round score if it was not a 1
+        // if (dice === 6 && lastDice === 6) {
+        //     // player loses all score
+        //     scores[activePlayer] = 0;
+        //     document.querySelector('#score-' + activePlayer).textContent = '0';
+        //     nextPlayer();
+
+        // } else if (dice !== 1) {
+        //     // add score of dice to round score if its not 1
+        //     roundScore += dice;
+        //     // display the roundScore
+        //     document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        // } else {
+        //     // next player
+        //     nextPlayer();
+        // }
+
+
+        // lastDice = dice;
 
         // step 4 - update the round score if it was not a 1
-        if (dice === 6 && lastDice === 6) {
-            // player loses all score
-            scores[activePlayer] = 0;
-            document.querySelector('#score-' + activePlayer).textContent = '0';
-            nextPlayer();
 
-        } else if (dice !== 1) {
+        if (dice !== 1 && dice2 != 1) {
             // add score of dice to round score if its not 1
-            roundScore += dice;
+            roundScore += dice1 + dice2;
             // display the roundScore
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
         } else {
@@ -38,8 +56,6 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
             nextPlayer();
         }
 
-
-        lastDice = dice;
 
 
 
@@ -74,7 +90,8 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
 
         if (scores[activePlayer] >= winningScore) {
             document.querySelector('#name-' + activePlayer).textContent = "Winner";
-            diceDOM.style.display = 'none';
+            document.getElementById('dice-1').style.display = 'none';
+            document.getElementById('dice-2').style.display = 'none';
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
             document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
             gamePlaying = false;
@@ -108,7 +125,8 @@ function nextPlayer() {
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
 
-    diceDOM.style.display = 'none';
+    document.getElementById('dice-1').style.display = 'none';
+    document.getElementById('dice-2').style.display = 'none';
 }
 
 document.querySelector('.btn-new').addEventListener('click', init);
@@ -136,5 +154,7 @@ function init() {
     document.querySelector('.player-0-panel').classList.remove('active');
     document.querySelector('.player-0-panel').classList.add('active');
     document.querySelector('.player-1-panel').classList.remove('active');
+    document.getElementById('dice-1').style.display = 'none';
+    document.getElementById('dice-2').style.display = 'none';
 
 };
