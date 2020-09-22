@@ -1,32 +1,11 @@
-// // instead of declaring each one on a line, can declare them all together and deifn them later on
+// instead of declaring each one on a line, can declare them all together and deifn them later on
 let scores, roundScore, activePlayer, dice, gamePlaying;
 init()
-// // keep track of the round score. only need one at a time.
-// scores = [0, 0];
 
-// // keep track of all scores in one array
-// roundScore = 0;
-
-// // need variable of current active player. 
-// // We are using 0 for active player and 1 for the other as those numbers will be used to match with the 
-// // index number of the array as there are 2 numbers, and it is 0 based and so 0 and 1.
-// activePlayer = 0;
-
-// // create the dice - which is essentially a random number
-// dice = Math.floor(Math.random() * 6) + 1;
-
-
-// document.querySelector('#current-' + activePlayer).textContent = dice;
-
-// function btn() {
-
-// };
-
-// document.querySelector('.btn-roll').addEventListener('click', btn);
-// // this is a callback function. a function being called by another function
 
 
 gamePlaying = true;
+var lastDice;
 var diceDOM = document.querySelector('.dice');
 
 
@@ -43,8 +22,13 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         diceDOM.src = "dice-" + dice + '.png';
 
         // step 4 - update the round score if it was not a 1
+        if (dice === 6 && lastDice === 6) {
+            // player loses all score
+            scores[activePlayer] = 0;
+            document.querySelector('#score-' + activePlayer).textContent = '0';
+            nextPlayer();
 
-        if (dice !== 1) {
+        } else if (dice !== 1) {
             // add score of dice to round score if its not 1
             roundScore += dice;
             // display the roundScore
@@ -53,6 +37,9 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
             // next player
             nextPlayer();
         }
+
+
+        lastDice = dice;
 
 
 
@@ -72,8 +59,20 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
         // Step 2 - update UI
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
+
         // Step 3 - check if player won the game
-        if (scores[activePlayer] >= 20) {
+        let finalScore = document.querySelector('.final-score').value;
+        let winningScore;
+        // undefined, 0, null or "" are coerced to false
+        // anythgin else is COERSED to true
+        if (finalScore) {
+            winningScore = finalScore;
+
+        } else {
+            winningScore = 100;
+        }
+
+        if (scores[activePlayer] >= winningScore) {
             document.querySelector('#name-' + activePlayer).textContent = "Winner";
             diceDOM.style.display = 'none';
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
