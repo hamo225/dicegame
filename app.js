@@ -1,5 +1,5 @@
 // // instead of declaring each one on a line, can declare them all together and deifn them later on
-let scores, roundScore, activePlayer, dice;
+let scores, roundScore, activePlayer, dice, gamePlaying;
 init()
 // // keep track of the round score. only need one at a time.
 // scores = [0, 0];
@@ -26,57 +26,59 @@ init()
 // // this is a callback function. a function being called by another function
 
 
-
+gamePlaying = true;
 var diceDOM = document.querySelector('.dice');
 
 
 // step 1 the button is pressed and the event listener hears this click and carries out the function
 document.querySelector('.btn-roll').addEventListener('click', function () {
-    // step 2 a random number between 1 and 6 is created
-    var dice = Math.floor(Math.random() * 6) + 1;
+    if (gamePlaying) {
 
-    // step 3 - we have to display this random number on the dice image
-    var diceDOM = document.querySelector('.dice');
-    diceDOM.style.display = 'block';
-    diceDOM.src = "dice-" + dice + '.png';
+        // step 2 a random number between 1 and 6 is created
+        var dice = Math.floor(Math.random() * 6) + 1;
 
-    // step 4 - update the round score if it was not a 1
+        // step 3 - we have to display this random number on the dice image
+        var diceDOM = document.querySelector('.dice');
+        diceDOM.style.display = 'block';
+        diceDOM.src = "dice-" + dice + '.png';
 
-    if (dice !== 1) {
-        // add score of dice to round score if its not 1
-        roundScore += dice;
-        // display the roundScore
-        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        // step 4 - update the round score if it was not a 1
 
-    } else {
-
-        // next player
-        nextPlayer();
-
+        if (dice !== 1) {
+            // add score of dice to round score if its not 1
+            roundScore += dice;
+            // display the roundScore
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        } else {
+            // next player
+            nextPlayer();
+        }
     }
-
 });
 
 // creating the event listener for the hold button
 document.querySelector('.btn-hold').addEventListener('click', function () {
+    if (gamePlaying) {
 
-    // Step 1 - add current score to the global score
-    // active player is either 0 or 1 which determine the index in the array scores
-    scores[activePlayer] += roundScore;
+        // Step 1 - add current score to the global score
+        // active player is either 0 or 1 which determine the index in the array scores
+        scores[activePlayer] += roundScore;
 
-    // Step 2 - update UI
-    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+        // Step 2 - update UI
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
-    // Step 3 - check if player won the game
-    if (scores[activePlayer] >= 20) {
-        document.querySelector('#name-' + activePlayer).textContent = "Winner";
-        diceDOM.style.display = 'none';
-        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        // Step 3 - check if player won the game
+        if (scores[activePlayer] >= 20) {
+            document.querySelector('#name-' + activePlayer).textContent = "Winner";
+            diceDOM.style.display = 'none';
+            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+            gamePlaying = false;
+        } else {
+            // move to next player
+            nextPlayer();
+        }
 
-    } else {
-        // move to next player
-        nextPlayer();
     }
 
 
@@ -105,11 +107,7 @@ function nextPlayer() {
     diceDOM.style.display = 'none';
 }
 
-
 document.querySelector('.btn-new').addEventListener('click', init);
-
-
-
 
 function init() {
     // reset scores to 0
