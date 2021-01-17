@@ -1,7 +1,7 @@
 
 # /*
 
-# dicegame - course Project
+# dicegame - Course Project
 
 GAME RULES:
 
